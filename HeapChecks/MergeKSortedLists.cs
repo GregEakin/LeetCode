@@ -15,51 +15,54 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
+using System.Resources;
 using Xunit;
 
 namespace HeapChecks;
 
 public class MergeKSortedLists
 {
-    public struct PPair : IComparable<PPair>
-    {
-        public int Key;
-        public int Value;
-        public int CompareTo(PPair other) => Value.CompareTo(other.Value);
-    }
-
     public class Solution
     {
-        public static ListNode? MergeKLists(ListNode?[]? lists)
+        public static ListNode MergeKLists(ListNode[] lists)
         {
             if (lists == null) return null;
 
-            var pointers = new ListNode?[lists.Length];
-            var heap = new MinHeap<PPair>();
+            var pointers = new ListNode[lists.Length];
+            var minNext = new SortedSet<Tuple<int, int>>();
             for (var i = 0; i < lists.Length; i++)
             {
                 var listNode = lists[i];
                 if (listNode == null) continue;
-                heap.Add(new PPair { Key = i, Value = listNode.val });
+                minNext.Add(new Tuple<int, int>(listNode.val, i));
                 pointers[i] = listNode.next;
             }
 
-            var stack = new Stack<int>();
-            while (heap.Count > 0)
+            ListNode r1 = null;
+            ListNode r2 = null;
+            while (minNext.Count > 0)
             {
-                var pair = heap.RemoveMin();
-                var index = pair.Key;
-                var value = pair.Value;
+                var pair = minNext.Min();
+                minNext.Remove(pair);
+                var value = pair.Item1;
+                var index = pair.Item2;
 
-                stack.Push(value);
+                var nextNode = new ListNode(value, null);
+                if (r2 == null)
+                    r1 = r2 = nextNode;
+                else
+                {
+                    r2.next = nextNode;
+                    r2 = r2.next;
+                }
+
                 var listNode = pointers[index];
                 if (listNode == null) continue;
-                heap.Add(new PPair { Key = index, Value = listNode.val });
+                minNext.Add(new Tuple<int, int>(listNode.val, index));
                 pointers[index] = listNode.next;
             }
 
-            return stack.Aggregate<int, ListNode?>(null, (current, i) => new ListNode(i, current));
+            return r1;
         }
     }
 
