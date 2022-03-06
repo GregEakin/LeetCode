@@ -14,8 +14,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Resources;
 using Xunit;
 
 namespace HeapChecks;
@@ -28,38 +26,33 @@ public class MergeKSortedLists
         {
             if (lists == null) return null;
 
-            var pointers = new ListNode[lists.Length];
-            var minNext = new SortedSet<Tuple<int, int>>();
-            for (var i = 0; i < lists.Length; i++)
+            var queue = new PriorityQueue<int, int>();
+            for (var index = 0; index < lists.Length; index++)
             {
-                var listNode = lists[i];
+                var listNode = lists[index];
                 if (listNode == null) continue;
-                minNext.Add(new Tuple<int, int>(listNode.val, i));
-                pointers[i] = listNode.next;
+                queue.Enqueue(index, listNode.val);
             }
 
             ListNode r1 = null;
             ListNode r2 = null;
-            while (minNext.Count > 0)
+            while (queue.Count > 0)
             {
-                var pair = minNext.Min();
-                minNext.Remove(pair);
-                var value = pair.Item1;
-                var index = pair.Item2;
+                var index = queue.Dequeue();
+                var value = lists[index].val;
 
-                var nextNode = new ListNode(value, null);
                 if (r2 == null)
-                    r1 = r2 = nextNode;
+                    r1 = r2 = new ListNode(value, null);
                 else
                 {
-                    r2.next = nextNode;
+                    r2.next = new ListNode(value, null);
                     r2 = r2.next;
                 }
 
-                var listNode = pointers[index];
-                if (listNode == null) continue;
-                minNext.Add(new Tuple<int, int>(listNode.val, index));
-                pointers[index] = listNode.next;
+                var nextNode = lists[index].next;
+                lists[index] = nextNode;
+                if (nextNode == null) continue;
+                queue.Enqueue(index, nextNode.val);
             }
 
             return r1;
@@ -99,4 +92,12 @@ public class MergeKSortedLists
         var lists = new ListNode?[] { new(new[] { 1, 2 }), new(), null };
         Assert.Equal(new ListNode(new[] { 0, 1, 2 }), Solution.MergeKLists(lists));
     }
+
+    [Fact]
+    public void Answer1()
+    {
+        var lists = new ListNode?[] { new(new[] { 1 }), new(new[] { 5 }), new(new[] { 2 }), new(new[] { 13 }), new(new[] { 4 }) };
+        Assert.Equal(new ListNode(new[] { 1, 2, 4, 5, 13 }), Solution.MergeKLists(lists));
+    }
+
 }
