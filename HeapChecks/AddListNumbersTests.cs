@@ -18,7 +18,7 @@ using Xunit;
 
 namespace HeapChecks;
 
-public class AddTowNumbersTests
+public class AddListNumbersTests
 {
     public class Solution
     {

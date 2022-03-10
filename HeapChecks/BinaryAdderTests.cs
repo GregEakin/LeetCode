@@ -18,7 +18,7 @@ using Xunit;
 
 namespace HeapChecks;
 
-public class AddTwoNumbersTests
+public class BinaryAdderTests
 {
     public (char, char) FullAdder(char x, char y, char z)
     {
