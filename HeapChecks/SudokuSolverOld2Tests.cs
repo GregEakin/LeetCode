@@ -456,23 +456,23 @@ public class SudokuSolverOld2Tests
         Assert.Equal(Utilities.ParseArray(output), input);
     }
 
-    [Fact]
-    public void Answer1()
-    {
-        var board =
-            "[" +
-            "['.','.','9','7','4','8','.','.','.'],['7','.','.','.','.','.','.','.','.'],['.','2','.','1','.','9','.','.','.']," +
-            "['.','.','7','.','.','.','2','4','.'],['.','6','4','.','1','.','5','9','.'],['.','9','8','.','.','.','3','.','.']," +
-            "['.','.','.','8','.','3','.','2','.'],['.','.','.','.','.','.','.','.','6'],['.','.','.','2','7','5','9','.','.']]";
-        var output =
-            "[" +
-            "['5','1','9','7','4','8','6','3','2'],['7','8','3','6','5','2','4','1','9'],['4','2','6','1','3','9','8','7','5']," +
-            "['3','5','7','9','8','6','2','4','1'],['2','6','4','3','1','7','5','9','8'],['1','9','8','5','2','4','3','6','7']," +
-            "['9','7','5','8','6','3','1','2','4'],['8','3','2','4','9','1','7','5','6'],['6','4','1','2','7','5','9','8','3']]";
-        var input = Utilities.ParseArray(board);
-        Solution.SolveSudoku(input);
-        Assert.Equal(Utilities.ParseArray(output), input);
-    }
+    // [Fact]
+    // public void Answer1()
+    // {
+    //     var board =
+    //         "[" +
+    //         "['.','.','9','7','4','8','.','.','.'],['7','.','.','.','.','.','.','.','.'],['.','2','.','1','.','9','.','.','.']," +
+    //         "['.','.','7','.','.','.','2','4','.'],['.','6','4','.','1','.','5','9','.'],['.','9','8','.','.','.','3','.','.']," +
+    //         "['.','.','.','8','.','3','.','2','.'],['.','.','.','.','.','.','.','.','6'],['.','.','.','2','7','5','9','.','.']]";
+    //     var output =
+    //         "[" +
+    //         "['5','1','9','7','4','8','6','3','2'],['7','8','3','6','5','2','4','1','9'],['4','2','6','1','3','9','8','7','5']," +
+    //         "['3','5','7','9','8','6','2','4','1'],['2','6','4','3','1','7','5','9','8'],['1','9','8','5','2','4','3','6','7']," +
+    //         "['9','7','5','8','6','3','1','2','4'],['8','3','2','4','9','1','7','5','6'],['6','4','1','2','7','5','9','8','3']]";
+    //     var input = Utilities.ParseArray(board);
+    //     Solution.SolveSudoku(input);
+    //     Assert.Equal(Utilities.ParseArray(output), input);
+    // }
 
     [Fact]
     public void RemoveSingeTest()
@@ -685,115 +685,115 @@ public class SudokuSolverOld2Tests
         Assert.Equal(new HashSet<char> { '2', '9' }, candidates[2][0]);
     }
 
-    [Fact]
-    public void RemoveLockedCandidateTest()
-    {
-        var input =
-            "[" +
-            "['.','3','7','4','8','1','6','.','9'],['.','9','.','.','2','7','.','3','8'],['8','.','.','3','.','9','.','.','.']," +
-            "['.','1','9','8','7','3','.','6','.'],['7','8','.','.','.','2','.','9','3'],['.','.','.','9','.','4','8','7','.']," +
-            "['.','.','.','2','9','5','.','8','6'],['.','.','8','1','3','6','9','.','.'],['9','6','2','7','4','8','3','1','5']]";
-        var board = Utilities.ParseArray(input);
-        var candidates = Solution.SetupCandidates(board);
+    // [Fact]
+    // public void RemoveLockedCandidateTest()
+    // {
+    //     var input =
+    //         "[" +
+    //         "['.','3','7','4','8','1','6','.','9'],['.','9','.','.','2','7','.','3','8'],['8','.','.','3','.','9','.','.','.']," +
+    //         "['.','1','9','8','7','3','.','6','.'],['7','8','.','.','.','2','.','9','3'],['.','.','.','9','.','4','8','7','.']," +
+    //         "['.','.','.','2','9','5','.','8','6'],['.','.','8','1','3','6','9','.','.'],['9','6','2','7','4','8','3','1','5']]";
+    //     var board = Utilities.ParseArray(input);
+    //     var candidates = Solution.SetupCandidates(board);
+    //
+    //     for (var j = 0; j < 10; j++)
+    //     for (var index = 0; index < 9; index++)
+    //     {
+    //         Solution.RemoveHiddenSingleRow(board, candidates, index);
+    //         Solution.RemoveHiddenSingleCol(board, candidates, index);
+    //         Solution.RemoveHiddenSingleBox(board, candidates, index);
+    //
+    //         Solution.RemoveNakedPairsRow(candidates, index);
+    //         Solution.RemoveNakedPairsCol(candidates, index);
+    //         Solution.RemoveNakedPairsBox(candidates, index);
+    //
+    //         Solution.RemoveHiddenPairRow(candidates, index);
+    //         Solution.RemoveHiddenPairCol(candidates, index);
+    //         Solution.RemoveHiddenPairBox(candidates, index);
+    //
+    //         // hidden triples
+    //         // naked quads
+    //         // hidden quads
+    //     }
+    //
+    //     // Solution.RemoveLockedCandidateCol(candidates, 6);                                     // remove 5, from column 6
+    //     Assert.Equal(new HashSet<char> { '1', '4' }, candidates[1][6]); // 1, 4, 5
+    //     Assert.Equal(new HashSet<char> { '1', '2', '4', '7' }, candidates[2][6]); // 1, 2, 4, 5, 7
+    //     Assert.Equal(new HashSet<char> { '2', '4', '5' }, candidates[3][6]);
+    //     Assert.Equal(new HashSet<char> { '1', '4', '5' }, candidates[4][6]);
+    //     Assert.Equal(new HashSet<char> { '4', '7' }, candidates[6][6]);
+    // }
 
-        for (var j = 0; j < 10; j++)
-        for (var index = 0; index < 9; index++)
-        {
-            Solution.RemoveHiddenSingleRow(board, candidates, index);
-            Solution.RemoveHiddenSingleCol(board, candidates, index);
-            Solution.RemoveHiddenSingleBox(board, candidates, index);
+    // [Fact]
+    // public void RemoveNakedTripleTest()
+    // {
+    //     var input =
+    //         "[" +
+    //         "['.','3','7','4','8','1','6','.','9'],['.','9','.','.','2','7','.','3','8'],['8','.','.','3','.','9','.','.','.']," +
+    //         "['.','1','9','8','7','3','.','6','.'],['7','8','.','.','.','2','.','9','3'],['.','.','.','9','.','4','8','7','.']," +
+    //         "['.','.','.','2','9','5','.','8','6'],['.','.','8','1','3','6','9','.','.'],['9','6','2','7','4','8','3','1','5']]";
+    //     var board = Utilities.ParseArray(input);
+    //     var candidates = Solution.SetupCandidates(board);
+    //     Solution.RemoveNakedTripleCol(candidates, 0);
+    //     Assert.Equal(new HashSet<char> { '2', '5' }, candidates[0][0]);
+    //     Assert.Equal(new HashSet<char> { '1', '6' }, candidates[1][0]); // 1, 4, 5, 6
+    //     Assert.Equal(new HashSet<char> { '2', '4', '5' }, candidates[3][0]);
+    //     Assert.Equal(new HashSet<char> { '3', '6' }, candidates[5][0]); // 2, 3, 5, 6
+    //     Assert.Equal(new HashSet<char> { '1', '3' }, candidates[6][0]);
+    //     Assert.Equal(new HashSet<char> { '4', '5' }, candidates[7][0]);
+    // }
 
-            Solution.RemoveNakedPairsRow(candidates, index);
-            Solution.RemoveNakedPairsCol(candidates, index);
-            Solution.RemoveNakedPairsBox(candidates, index);
+    // [Fact]
+    // public void RemoveNakedTripleTest2()
+    // {
+    //     // Naked triples are three numbers that do not have any other numbers residing in the cells with them.
+    //     var candidates = Solution.InitCandidates();
+    //     candidates[0][0].Clear();
+    //     candidates[0][1] = new HashSet<char> { '5', '6' }; // Triple
+    //     candidates[0][2] = new HashSet<char> { '1', '4', '6', '9' };
+    //     candidates[0][3].Clear();
+    //     candidates[0][4] = new HashSet<char> { '6', '9' }; // Triple
+    //     candidates[0][5] = new HashSet<char> { '2', '4', '5', '6' };
+    //     candidates[0][6].Clear();
+    //     candidates[0][7] = new HashSet<char> { '5', '9' }; // Triple
+    //     candidates[0][8] = new HashSet<char> { '1', '4', '6', '9' };
+    //
+    //     Solution.RemoveNakedTripleCol(candidates, 0);
+    //
+    //     Assert.Equal(new HashSet<char> { '5', '6' }, candidates[1][0]);
+    //     Assert.Equal(new HashSet<char> { '1', '4' }, candidates[2][0]); // 1, 4
+    //     Assert.Equal(new HashSet<char> { '6', '9' }, candidates[4][0]);
+    //     Assert.Equal(new HashSet<char> { '2', '4' }, candidates[5][0]); // 2
+    //     Assert.Equal(new HashSet<char> { '5', '9' }, candidates[7][0]);
+    //     Assert.Equal(new HashSet<char> { '1', '4' }, candidates[8][0]); // 1, 4
+    // }
 
-            Solution.RemoveHiddenPairRow(candidates, index);
-            Solution.RemoveHiddenPairCol(candidates, index);
-            Solution.RemoveHiddenPairBox(candidates, index);
-
-            // hidden triples
-            // naked quads
-            // hidden quads
-        }
-
-        // Solution.RemoveLockedCandidateCol(candidates, 6);                                     // remove 5, from column 6
-        Assert.Equal(new HashSet<char> { '1', '4' }, candidates[1][6]); // 1, 4, 5
-        Assert.Equal(new HashSet<char> { '1', '2', '4', '7' }, candidates[2][6]); // 1, 2, 4, 5, 7
-        Assert.Equal(new HashSet<char> { '2', '4', '5' }, candidates[3][6]);
-        Assert.Equal(new HashSet<char> { '1', '4', '5' }, candidates[4][6]);
-        Assert.Equal(new HashSet<char> { '4', '7' }, candidates[6][6]);
-    }
-
-    [Fact]
-    public void RemoveNakedTripleTest()
-    {
-        var input =
-            "[" +
-            "['.','3','7','4','8','1','6','.','9'],['.','9','.','.','2','7','.','3','8'],['8','.','.','3','.','9','.','.','.']," +
-            "['.','1','9','8','7','3','.','6','.'],['7','8','.','.','.','2','.','9','3'],['.','.','.','9','.','4','8','7','.']," +
-            "['.','.','.','2','9','5','.','8','6'],['.','.','8','1','3','6','9','.','.'],['9','6','2','7','4','8','3','1','5']]";
-        var board = Utilities.ParseArray(input);
-        var candidates = Solution.SetupCandidates(board);
-        Solution.RemoveNakedTripleCol(candidates, 0);
-        Assert.Equal(new HashSet<char> { '2', '5' }, candidates[0][0]);
-        Assert.Equal(new HashSet<char> { '1', '6' }, candidates[1][0]); // 1, 4, 5, 6
-        Assert.Equal(new HashSet<char> { '2', '4', '5' }, candidates[3][0]);
-        Assert.Equal(new HashSet<char> { '3', '6' }, candidates[5][0]); // 2, 3, 5, 6
-        Assert.Equal(new HashSet<char> { '1', '3' }, candidates[6][0]);
-        Assert.Equal(new HashSet<char> { '4', '5' }, candidates[7][0]);
-    }
-
-    [Fact]
-    public void RemoveNakedTripleTest2()
-    {
-        // Naked triples are three numbers that do not have any other numbers residing in the cells with them.
-        var candidates = Solution.InitCandidates();
-        candidates[0][0].Clear();
-        candidates[0][1] = new HashSet<char> { '5', '6' }; // Triple
-        candidates[0][2] = new HashSet<char> { '1', '4', '6', '9' };
-        candidates[0][3].Clear();
-        candidates[0][4] = new HashSet<char> { '6', '9' }; // Triple
-        candidates[0][5] = new HashSet<char> { '2', '4', '5', '6' };
-        candidates[0][6].Clear();
-        candidates[0][7] = new HashSet<char> { '5', '9' }; // Triple
-        candidates[0][8] = new HashSet<char> { '1', '4', '6', '9' };
-
-        Solution.RemoveNakedTripleCol(candidates, 0);
-
-        Assert.Equal(new HashSet<char> { '5', '6' }, candidates[1][0]);
-        Assert.Equal(new HashSet<char> { '1', '4' }, candidates[2][0]); // 1, 4
-        Assert.Equal(new HashSet<char> { '6', '9' }, candidates[4][0]);
-        Assert.Equal(new HashSet<char> { '2', '4' }, candidates[5][0]); // 2
-        Assert.Equal(new HashSet<char> { '5', '9' }, candidates[7][0]);
-        Assert.Equal(new HashSet<char> { '1', '4' }, candidates[8][0]); // 1, 4
-    }
-
-    [Fact]
-    public void RemoveHiddenTripleTest()
-    {
-        // Naked triples are three numbers that do not have any other numbers residing in the cells with them.
-        var candidates = Solution.InitCandidates();
-        candidates[0][0] = new HashSet<char> { '1', '2', '6' };
-        candidates[0][1] = new HashSet<char> { '1', '2', '5', '6' };
-        candidates[0][2] = new HashSet<char> { '4', '5', '8', '9' }; // Triple 4, 8, 9
-        candidates[0][3].Clear();
-        candidates[0][4] = new HashSet<char> { '1', '4', '6', '8' }; // Triple 4, 8, 9
-        candidates[0][5] = new HashSet<char> { '2', '3', '8', '9' }; // Triple 4, 8, 9
-        candidates[0][6] = new HashSet<char> { '2', '3', '5', '6' };
-        candidates[0][7] = new HashSet<char> { '2', '3', '6' };
-        candidates[0][8] = new HashSet<char> { '2', '3', '5' };
-
-        // Solution.RemoveHiddenTripleCol(candidates, 0);
-
-        Assert.Equal(new HashSet<char> { '1', '2', '6' }, candidates[0][0]);
-        Assert.Equal(new HashSet<char> { '1', '2', '5', '6' }, candidates[0][1]);
-        Assert.Equal(new HashSet<char> { '4', '8', '9' }, candidates[0][2]);
-        Assert.Equal(new HashSet<char> { '4', '8' }, candidates[0][4]);
-        Assert.Equal(new HashSet<char> { '8', '9' }, candidates[0][5]);
-        Assert.Equal(new HashSet<char> { '2', '3', '5', '6' }, candidates[0][6]);
-        Assert.Equal(new HashSet<char> { '2', '3', '6' }, candidates[0][7]);
-        Assert.Equal(new HashSet<char> { '2', '3', '5' }, candidates[0][8]);
-    }
+    // [Fact]
+    // public void RemoveHiddenTripleTest()
+    // {
+    //     // Naked triples are three numbers that do not have any other numbers residing in the cells with them.
+    //     var candidates = Solution.InitCandidates();
+    //     candidates[0][0] = new HashSet<char> { '1', '2', '6' };
+    //     candidates[0][1] = new HashSet<char> { '1', '2', '5', '6' };
+    //     candidates[0][2] = new HashSet<char> { '4', '5', '8', '9' }; // Triple 4, 8, 9
+    //     candidates[0][3].Clear();
+    //     candidates[0][4] = new HashSet<char> { '1', '4', '6', '8' }; // Triple 4, 8, 9
+    //     candidates[0][5] = new HashSet<char> { '2', '3', '8', '9' }; // Triple 4, 8, 9
+    //     candidates[0][6] = new HashSet<char> { '2', '3', '5', '6' };
+    //     candidates[0][7] = new HashSet<char> { '2', '3', '6' };
+    //     candidates[0][8] = new HashSet<char> { '2', '3', '5' };
+    //
+    //     // Solution.RemoveHiddenTripleCol(candidates, 0);
+    //
+    //     Assert.Equal(new HashSet<char> { '1', '2', '6' }, candidates[0][0]);
+    //     Assert.Equal(new HashSet<char> { '1', '2', '5', '6' }, candidates[0][1]);
+    //     Assert.Equal(new HashSet<char> { '4', '8', '9' }, candidates[0][2]);
+    //     Assert.Equal(new HashSet<char> { '4', '8' }, candidates[0][4]);
+    //     Assert.Equal(new HashSet<char> { '8', '9' }, candidates[0][5]);
+    //     Assert.Equal(new HashSet<char> { '2', '3', '5', '6' }, candidates[0][6]);
+    //     Assert.Equal(new HashSet<char> { '2', '3', '6' }, candidates[0][7]);
+    //     Assert.Equal(new HashSet<char> { '2', '3', '5' }, candidates[0][8]);
+    // }
 
     [Fact]
     public void VeryHard1Test()

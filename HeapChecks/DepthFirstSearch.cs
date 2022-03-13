@@ -39,7 +39,11 @@ public class DepthFirstSearch<T> where T : notnull
 
     public int Time => _time;
 
-    public Dictionary<T, int> FinishTimes => _f;
+    public Dictionary<T, T?> Trees => _pi;
+
+    public Dictionary<T, int> DiscoveredTimes => _d;
+
+    public Dictionary<T, int> FinishedTimes => _f;
 
     public void Search()
     {

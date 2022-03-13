@@ -65,11 +65,57 @@ public partial class DepthFirstSearchTests
         var searchG = new DepthFirstSearch<char>(g);
         searchG.Search();
         var searchGt = new DepthFirstSearch<char>(gt);
-        var stuff = searchG.FinishTimes.OrderByDescending(t => t.Value);
+        var stuff = searchG.FinishedTimes.OrderByDescending(t => t.Value);
         // Assert.Equal(new[]{'b', 'e', 'a', 'c', 'd', 'g', 'h', 'f' }, stuff.Select(t => t.Key));
         searchGt.Search(stuff);
         Assert.Equal(16, searchG.Time);
-
     }
 
+    [Fact]
+    public void NakedTest()
+    {
+        var g = new (char u, char v)[] {
+            ('c', 'i'), // 1 c, i
+            ('i', 'c'),
+            ('f', 'f'), // 2 f
+            ('a', 'a'), // 3 a
+            ('c', 'f'), // 4 c, f, i
+            ('f', 'i'),
+            ('i', 'c'),
+            ('b', 'f'), // 5 b, f, h
+            ('f', 'h'),
+            ('h', 'b'),
+            ('b', 'c'), // 6 b, c, e, f, i
+            ('b', 'e'),
+            ('b', 'f'),
+            ('b', 'i'),
+            ('c', 'e'),
+            ('c', 'f'),
+            ('c', 'i'),
+            ('e', 'f'),
+            ('e', 'i'),
+            ('f', 'i'),
+            ('d', 'd'), // 7 d
+            ('g', 'g'), // 8 g
+            ('c', 'e'), // 9 c, e, h, i
+            ('c', 'h'),
+            ('c', 'i'),
+            ('e', 'h'),
+            ('e', 'i'),
+            ('h', 'i'),
+        };
+
+        var gt = g.Select(pair => (pair.v, pair.u)).ToArray();
+        // Assert.Equal(('b', 'a'), gt[0]);
+
+
+        var searchG = new DepthFirstSearch<char>(g);
+        searchG.Search();
+        var searchGt = new DepthFirstSearch<char>(gt);
+        var stuff = searchG.FinishedTimes.OrderByDescending(t => t.Value);
+        // Assert.Equal(new[]{'b', 'e', 'a', 'c', 'd', 'g', 'h', 'f' }, stuff.Select(t => t.Key));
+        searchGt.Search(stuff);
+        Assert.Equal(18, searchG.Time);
+
+    }
 }
