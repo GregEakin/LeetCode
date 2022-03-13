@@ -37,14 +37,14 @@ public class MinimumWindowSubstring
 
             if (need <= 0) return string.Empty;
 
-            (int Start, int Length) result = (0, int.MaxValue);   // max is 100,000
+            (int Start, int Length) result = (0, int.MaxValue); // max is 100,000
             var current = new int[0x40];
             var count = 0;
             var left = 0;
             for (var right = 0; right < m; right++)
             {
                 current[s[right] - 0x40]++;
-                if (current[s[right] - 0x40] == counts[s[right] - 0x40]) 
+                if (current[s[right] - 0x40] == counts[s[right] - 0x40])
                     count++;
 
                 while (left <= right && current[s[left] - 0x40] > counts[s[left] - 0x40])
@@ -57,7 +57,7 @@ public class MinimumWindowSubstring
                     result = (left, right - left + 1);
             }
 
-            return count == need 
+            return count == need
                 ? s.Substring(result.Start, result.Length)
                 : string.Empty;
         }
