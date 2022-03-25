@@ -12,13 +12,12 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
 namespace HeapChecks;
 
-public partial class DepthFirstSearchTests
+public class DepthFirstSearchTests
 {
     [Fact]
     public void DfsTest()
@@ -60,7 +59,7 @@ public partial class DepthFirstSearchTests
 
         var gt = g.Select(pair => (pair.v, pair.u)).ToArray();
         // Assert.Equal(('b', 'a'), gt[0]);
-
+        
 
         var searchG = new DepthFirstSearch<char>(g);
         searchG.Search();

@@ -14,7 +14,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Xunit;
 
 namespace HeapChecks;
 
@@ -37,47 +36,45 @@ public class BreadthFirstSearch<T> where T : notnull
         _d = new Dictionary<T, int>(vertexes.Length);        // distance from source
     }
 
-    public void BFS(T s)
+    public void Search(T s)
     {
         foreach (var u in _vertexes)
         {
             _color[u] = Color.White;
             _d[u] = int.MaxValue;
-            _pi[u] = default(T);
+            _pi[u] = default;
         }
 
         _color[s] = Color.Gray;
         _d[s] = 0;
-        _pi[s] = default(T);
+        _pi[s] = default;
 
-        var Q = new Queue<T>();
-        Q.Enqueue(s);
-        while (Q.Count > 0)
+        var queue = new Queue<T>();
+        queue.Enqueue(s);
+        while (queue.Count > 0)
         {
-            var u = Q.Dequeue();
+            var u = queue.Dequeue();
             var items = _edges.Where(t => t.u.Equals(u)).Select(t => t.v).Concat(_edges.Where(t => t.v.Equals(u)).Select(t => t.u));
             foreach (var v in items)
             {
-                if (_color[v] == Color.White)
-                {
-                    _color[v] = Color.Gray;
-                    _d[v] = _d[u] + 1;
-                    _pi[v] = u;
-                    Q.Enqueue(v);
-                }
+                if (_color[v] != Color.White) continue;
+                _color[v] = Color.Gray;
+                _d[v] = _d[u] + 1;
+                _pi[v] = u;
+                queue.Enqueue(v);
             }
 
             _color[u] = Color.Black;
         }
     }
 
-    public void PrintPath(T s, T v)
+    public void PrintPath(T s, T? v)
     {
         if (s.Equals(v))
             System.Console.WriteLine(s);
         else
         {
-            if (_pi[v] == null)
+            if (v == null || _pi[v] == null)
                 System.Console.WriteLine("No path from {0} to {1}", s, v);
             else
             {
@@ -85,29 +82,5 @@ public class BreadthFirstSearch<T> where T : notnull
                 System.Console.WriteLine(v);
             }
         }
-    }
-}
-
-public class BreadthFirstSearchTests
-{
-    [Fact]
-    public void Test1()
-    {
-        char[] vertexes = new[] { 'r', 's', 't', 'u', 'v', 'w', 'x', 'y' };
-        (char u, char v)[] edges = new[] {
-            ('r', 'v'),
-            ('r', 's'),
-            ('s', 'w'),
-            ('w', 't'),
-            ('w', 'x'),
-            ('t', 'x'),
-            ('t', 'u'),
-            ('x', 'y'),
-            ('u', 'x'),
-        };
-
-        var search = new BreadthFirstSearch<char>(vertexes, edges);
-        search.BFS('s');
-        search.PrintPath('s', 'u');
     }
 }
