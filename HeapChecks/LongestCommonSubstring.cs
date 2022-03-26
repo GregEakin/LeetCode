@@ -22,31 +22,31 @@ public class LongestCommonSubstring
 {
     public static IEnumerable<string> Substring(string s, string t)
     {
-        var l = new int[s.Length, t.Length];
         var z = 0;
         var ret = new HashSet<string>();
 
+        var l1 = new int[t.Length];
         for (var i = 0; i < s.Length; i++)
-        for (var j = 0; j < t.Length; j++)
         {
-            if (s[i] == t[j])
+            var l0 = l1;
+            l1 = new int[t.Length];
+            for (var j = 0; j < t.Length; j++)
             {
+                if (s[i] != t[j]) continue;
                 if (i == 0 || j == 0)
-                    l[i, j] = 1;
+                    l1[j] = 1;
                 else
-                    l[i, j] = l[i - 1, j - 1] + 1;
+                    l1[j] = l0[j - 1] + 1;
 
-                if (l[i, j] > z)
+                if (l1[j] > z)
                 {
-                    z = l[i, j];
+                    z = l1[j];
                     ret.Clear();
                     ret.Add(s[(i - z + 1)..(i + 1)]);
                 }
-                else if (l[i, j] == z)
+                else if (l1[j] == z)
                     ret.Add(s[(i - z + 1)..(i + 1)]);
             }
-            else
-                l[i, j] = 0;
         }
 
         return ret;
