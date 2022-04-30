@@ -1,0 +1,120 @@
+//    Copyright 2022 Gregory Eakin
+// 
+//    Licensed under the Apache License, Version 2.0 (the "License");
+//    you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+// 
+//        http://www.apache.org/licenses/LICENSE-2.0
+// 
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
+
+using Xunit;
+
+namespace HeapChecks;
+
+public class SearchInRotatedSortedArrayII
+{
+    public class Solution
+    {
+        public bool Search(int[] nums, int target)
+        {
+            var left = 0;
+            var right = nums.Length - 1;
+            while (left <= right)
+            {
+                var middle = left + (right - left) / 2;
+                if (nums[middle] == target) return true;
+                if (nums[middle] == nums[left])
+                    left++;
+                else if (nums[middle] > nums[left])
+                {
+                    if (target >= nums[left] && target < nums[middle]) right = middle - 1;
+                    else left = middle + 1;
+                }
+                else
+                {
+                    if (target <= nums[right] && target > nums[middle]) left = middle + 1;
+                    else right = middle - 1;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    public class SolutionFast
+    {
+        public static bool Search(int[] nums, int target, int lo, int hi)
+        {
+            if (lo > hi || nums[lo] < nums[hi] && (nums[lo] > target || nums[hi] < target))
+                return false;
+
+            var mid = lo + (hi - lo) / 2;
+
+            if (nums[mid] == target)
+                return true;
+
+            if (hi == lo)
+                return false;
+
+            return Search(nums, target, lo, mid) || Search(nums, target, mid + 1, hi);
+        }
+
+        public bool Search(int[] nums, int target)
+        {
+            return Search(nums, target, 0, nums.Length - 1);
+        }
+    }
+
+    [Fact]
+    public void Answer1()
+    {
+        var nums = new[] { 1, 0, 1, 1, 1 };
+        var solution = new Solution();
+        Assert.True(solution.Search(nums, 0));
+    }
+
+    [Fact]
+    public void Example1()
+    {
+        var nums = new[] { 2, 5, 6, 0, 0, 1, 2 };
+        var solution = new Solution();
+        Assert.True(solution.Search(nums, 0));
+    }
+
+    [Fact]
+    public void Example2()
+    {
+        var nums = new[] { 2, 5, 6, 0, 0, 1, 2 };
+        var solution = new Solution();
+        Assert.False(solution.Search(nums, 3));
+    }
+
+    [Fact]
+    public void Test1()
+    {
+        var nums = new[] { 1, 3, 5 };
+        var solution = new Solution();
+        Assert.True(solution.Search(nums, 5));
+    }
+
+    [Fact]
+    public void Test2()
+    {
+        var nums = new[] { 0, 1, 3, 5 };
+        var solution = new Solution();
+        Assert.True(solution.Search(nums, 5));
+    }
+
+    [Fact]
+    public void Test3()
+    {
+        var nums = new[] { 1 };
+        var solution = new Solution();
+        Assert.False(solution.Search(nums, 0));
+    }
+}

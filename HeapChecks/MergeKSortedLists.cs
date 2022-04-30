@@ -31,7 +31,7 @@ public class MergeKSortedLists
             {
                 var listNode = lists[index];
                 if (listNode == null) continue;
-                queue.Enqueue(index, listNode.Val);
+                queue.Enqueue(index, listNode.val);
             }
 
             ListNode? r1 = null;
@@ -39,20 +39,20 @@ public class MergeKSortedLists
             while (queue.Count > 0)
             {
                 var index = queue.Dequeue();
-                var value = lists[index].Val;
+                var value = lists[index].val;
 
                 if (r2 == null)
                     r1 = r2 = new ListNode(value, null);
                 else
                 {
-                    r2.Next = new ListNode(value, null);
-                    r2 = r2.Next;
+                    r2.next = new ListNode(value, null);
+                    r2 = r2.next;
                 }
 
-                var nextNode = lists[index].Next;
+                var nextNode = lists[index].next;
                 lists[index] = nextNode;
                 if (nextNode == null) continue;
-                queue.Enqueue(index, nextNode.Val);
+                queue.Enqueue(index, nextNode.val);
             }
 
             return r1;
@@ -96,7 +96,8 @@ public class MergeKSortedLists
     [Fact]
     public void Answer1()
     {
-        var lists = new ListNode?[] { new(new[] { 1 }), new(new[] { 5 }), new(new[] { 2 }), new(new[] { 13 }), new(new[] { 4 }) };
+        var lists = new ListNode?[]
+            { new(new[] { 1 }), new(new[] { 5 }), new(new[] { 2 }), new(new[] { 13 }), new(new[] { 4 }) };
         Assert.Equal(new ListNode(new[] { 1, 2, 4, 5, 13 }), Solution.MergeKLists(lists));
     }
 }

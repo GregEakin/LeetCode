@@ -42,13 +42,13 @@ public class TwoSumTests
             var nums = new[] { 2, 7, 11, 15 };
             var target = 9;
 
-            Assert.Equal(new[]{0, 1}, TwoSum(nums, target));
+            Assert.Equal(new[] { 0, 1 }, TwoSum(nums, target));
         }
 
         [Fact]
         public void Example2()
         {
-            var nums = new[] { 3,2,4 };
+            var nums = new[] { 3, 2, 4 };
             var target = 6;
 
             Assert.Equal(new[] { 1, 2 }, TwoSum(nums, target));

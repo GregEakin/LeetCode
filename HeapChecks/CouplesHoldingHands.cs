@@ -45,7 +45,7 @@ public class CouplesHoldingHands
                         (loc[2 * i + 1], loc[2 * j]) = (loc[2 * j], loc[2 * i + 1]);
                         break;
                     }
-                    
+
                     if (loc[2 * i] == loc[2 * j + 1])
                     {
                         swaps++;

@@ -22,7 +22,8 @@ public class DepthFirstSearchTests
     [Fact]
     public void DfsTest()
     {
-        var tree = new (char u, char v)[] {
+        var tree = new (char u, char v)[]
+        {
             ('u', 'v'),
             ('u', 'x'),
             ('x', 'v'),
@@ -40,7 +41,8 @@ public class DepthFirstSearchTests
     [Fact]
     public void StronglyConnectedComponentsTest()
     {
-        var g = new (char u, char v)[] {
+        var g = new (char u, char v)[]
+        {
             ('c', 'g'),
             ('g', 'f'),
             ('h', 'h'),
@@ -59,7 +61,7 @@ public class DepthFirstSearchTests
 
         var gt = g.Select(pair => (pair.v, pair.u)).ToArray();
         // Assert.Equal(('b', 'a'), gt[0]);
-        
+
 
         var searchG = new DepthFirstSearch<char>(g);
         searchG.Search();
@@ -73,7 +75,8 @@ public class DepthFirstSearchTests
     [Fact]
     public void NakedTest()
     {
-        var g = new (char u, char v)[] {
+        var g = new (char u, char v)[]
+        {
             ('c', 'i'), // 1 c, i
             ('i', 'c'),
             ('f', 'f'), // 2 f
@@ -115,6 +118,5 @@ public class DepthFirstSearchTests
         // Assert.Equal(new[]{'b', 'e', 'a', 'c', 'd', 'g', 'h', 'f' }, stuff.Select(t => t.Key));
         searchGt.Search(stuff);
         Assert.Equal(18, searchG.Time);
-
     }
 }

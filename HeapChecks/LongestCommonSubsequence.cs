@@ -13,8 +13,6 @@
 //    limitations under the License.
 
 using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Runtime.InteropServices.ComTypes;
 using Xunit;
 
 namespace HeapChecks;

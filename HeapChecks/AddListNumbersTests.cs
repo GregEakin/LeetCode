@@ -30,27 +30,27 @@ public class AddListNumbersTests
             var carry = 0;
             while (d1 != null && d2 != null)
             {
-                var sum = carry + d1.Val + d2.Val;
+                var sum = carry + d1.val + d2.val;
                 carry = sum / 10;
                 total.Push(sum % 10);
-                d1 = d1.Next;
-                d2 = d2.Next;
+                d1 = d1.next;
+                d2 = d2.next;
             }
 
             while (d1 != null)
             {
-                var sum = carry + d1.Val;
+                var sum = carry + d1.val;
                 carry = sum / 10;
                 total.Push(sum % 10);
-                d1 = d1.Next;
+                d1 = d1.next;
             }
 
             while (d2 != null)
             {
-                var sum = carry + d2.Val;
+                var sum = carry + d2.val;
                 carry = sum / 10;
                 total.Push(sum % 10);
-                d2 = d2.Next;
+                d2 = d2.next;
             }
 
             if (carry > 0)
@@ -64,20 +64,20 @@ public class AddListNumbersTests
         {
             if (l1 != null && l2 != null)
             {
-                var sum = carry + l1.Val + l2.Val;
-                return new ListNode(sum % 10, AddTwoNumbers(l1.Next, l2.Next, sum / 10));
+                var sum = carry + l1.val + l2.val;
+                return new ListNode(sum % 10, AddTwoNumbers(l1.next, l2.next, sum / 10));
             }
 
             if (l1 != null)
             {
-                var sum = carry + l1.Val;
-                return new ListNode(sum % 10, AddTwoNumbers(l1.Next, null, sum / 10));
+                var sum = carry + l1.val;
+                return new ListNode(sum % 10, AddTwoNumbers(l1.next, null, sum / 10));
             }
 
             if (l2 != null)
             {
-                var sum = carry + l2.Val;
-                return new ListNode(sum % 10, AddTwoNumbers(null, l2.Next, sum / 10));
+                var sum = carry + l2.val;
+                return new ListNode(sum % 10, AddTwoNumbers(null, l2.next, sum / 10));
             }
 
             if (carry > 0)

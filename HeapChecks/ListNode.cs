@@ -19,13 +19,13 @@ namespace HeapChecks;
 
 public class ListNode
 {
-    public int Val { get; }
-    public ListNode? Next { get; set; }
+    public int val { get; }
+    public ListNode? next { get; set; }
 
     public ListNode(int val = 0, ListNode? next = null)
     {
-        Val = val;
-        Next = next;
+        this.val = val;
+        this.next = next;
     }
 
     public override bool Equals(object? obj)
@@ -37,12 +37,13 @@ public class ListNode
 
     protected bool Equals(ListNode other)
     {
-        return Val == other.Val && ((Next == null && other.Next == null) || (Next != null && other.Next != null && Next.Equals(other.Next)));
+        return val == other.val && ((next == null && other.next == null) ||
+                                    (next != null && other.next != null && next.Equals(other.next)));
     }
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Val, Next?.GetHashCode());
+        return HashCode.Combine(val, next?.GetHashCode());
     }
 
     public ListNode(IReadOnlyList<int> data, int index = 0)
@@ -53,8 +54,8 @@ public class ListNode
         if (index < 0 || index >= data.Count)
             throw new ArgumentException("index out of range");
 
-        Val = data[index];
-        Next = index == data.Count - 1
+        val = data[index];
+        next = index == data.Count - 1
             ? null
             : new ListNode(data, index + 1);
     }

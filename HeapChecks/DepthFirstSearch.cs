@@ -19,7 +19,12 @@ namespace HeapChecks;
 
 public class DepthFirstSearch<T> where T : notnull
 {
-    public enum Color { White, Gray, Black }
+    public enum Color
+    {
+        White,
+        Gray,
+        Black
+    }
 
     private readonly (T u, T v)[] _tree;
     private readonly Dictionary<T, Color> _color;
@@ -27,10 +32,10 @@ public class DepthFirstSearch<T> where T : notnull
     public DepthFirstSearch((T u, T v)[] tree)
     {
         _tree = tree;
-        _color = new Dictionary<T, Color>(tree.Length);  // progress indicator
-        Trees = new Dictionary<T, T?>(tree.Length);      // predecessor field
-        DiscoveredTimes = new Dictionary<T, int>(tree.Length);        // discover time
-        FinishedTimes = new Dictionary<T, int>(tree.Length);        // finished searching time
+        _color = new Dictionary<T, Color>(tree.Length); // progress indicator
+        Trees = new Dictionary<T, T?>(tree.Length); // predecessor field
+        DiscoveredTimes = new Dictionary<T, int>(tree.Length); // discover time
+        FinishedTimes = new Dictionary<T, int>(tree.Length); // finished searching time
     }
 
     public int Time { get; private set; }

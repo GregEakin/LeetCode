@@ -24,10 +24,10 @@ public class RecursivelySudokuSolverTests
 
         public bool IsInCol(int col, char num)
         {
-            for (var row = 0; row < 9; row ++)
+            for (var row = 0; row < 9; row++)
                 if (_board[row][col] == num)
                     return true;
-            
+
             return false;
         }
 
@@ -36,16 +36,16 @@ public class RecursivelySudokuSolverTests
             for (var col = 0; col < 9; col++)
                 if (_board[row][col] == num)
                     return true;
-            
+
             return false;
         }
 
         public bool IsInBox(int startRow, int startCol, char num)
         {
             for (var row = 0; row < 3; row++)
-                for (var col = 0; col < 3; col++)
-                    if (_board[row + startRow][col + startCol] == num)
-                        return true;
+            for (var col = 0; col < 3; col++)
+                if (_board[row + startRow][col + startCol] == num)
+                    return true;
 
             return false;
         }
@@ -53,20 +53,20 @@ public class RecursivelySudokuSolverTests
         public (int, int) FindEmptyCell()
         {
             for (var row = 0; row < 9; row++)
-                for (var col = 0; col < 9; col++)
-                    if (_board[row][col] == '.')
-                        return (row, col);
+            for (var col = 0; col < 9; col++)
+                if (_board[row][col] == '.')
+                    return (row, col);
 
             return (-1, -1);
         }
 
         public bool IsValidCell(int row, int col, char num)
         {
-            var valid = 
-                !IsInRow(row, num) && 
+            var valid =
+                !IsInRow(row, num) &&
                 !IsInCol(col, num) &&
                 !IsInBox(row - row % 3, col - col % 3, num);
-            
+
             return valid;
         }
 
@@ -127,7 +127,7 @@ public class RecursivelySudokuSolverTests
             "['5','1','9','7','4','8','6','3','2'],['7','8','3','6','5','2','4','1','9'],['4','2','6','1','3','9','8','7','5']," +
             "['3','5','7','9','8','6','2','4','1'],['2','6','4','3','1','7','5','9','8'],['1','9','8','5','2','4','3','6','7']," +
             "['9','7','5','8','6','3','1','2','4'],['8','3','2','4','9','1','7','5','6'],['6','4','1','2','7','5','9','8','3']]";
-        
+
         var input = Utilities.ParseArray(_board);
         var solution = new Solution();
         solution.SolveSudoku(input);

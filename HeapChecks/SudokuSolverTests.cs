@@ -78,12 +78,12 @@ public class SudokuSolverTests
             var r1 = box / 3;
             var c1 = box % 3;
             for (var i = 0; i < 3; i++)
-                for (var j = 0; j < 3; j++)
-                {
-                    var item = board[3 * r1 + i][3 * c1 + j];
-                    if (item == '.') continue;
-                    values.Add(item);
-                }
+            for (var j = 0; j < 3; j++)
+            {
+                var item = board[3 * r1 + i][3 * c1 + j];
+                if (item == '.') continue;
+                values.Add(item);
+            }
 
             for (var r2 = 0; r2 < 9; r2++)
             {
@@ -116,33 +116,33 @@ public class SudokuSolverTests
 
                 var dotCount = 0;
                 for (var row = 0; row < 9; row++)
-                    for (var col = 0; col < 9; col++)
+                for (var col = 0; col < 9; col++)
+                {
+                    var item = board[row][col];
+                    if (item != '.') continue;
+
+                    var cantBeValues = CantBeValues(board, row, col);
+                    if (cantBeValues.Count == 8)
                     {
-                        var item = board[row][col];
-                        if (item != '.') continue;
-
-                        var cantBeValues = CantBeValues(board, row, col);
-                        if (cantBeValues.Count == 8)
+                        for (var guess = '1'; guess <= '9'; guess++)
                         {
-                            for (var guess = '1'; guess <= '9'; guess++)
-                            {
-                                if (cantBeValues.Contains(guess)) continue;
-                                board[row][col] = guess;
-                                break;
-                            }
-
-                            continue;
+                            if (cantBeValues.Contains(guess)) continue;
+                            board[row][col] = guess;
+                            break;
                         }
 
-                        var mustBeValues = MustBeValues(board, row, col, cantBeValues);
-                        if (mustBeValues.Count == 1)
-                        {
-                            board[row][col] = mustBeValues.Single();
-                            continue;
-                        }
-
-                        dotCount++;
+                        continue;
                     }
+
+                    var mustBeValues = MustBeValues(board, row, col, cantBeValues);
+                    if (mustBeValues.Count == 1)
+                    {
+                        board[row][col] = mustBeValues.Single();
+                        continue;
+                    }
+
+                    dotCount++;
+                }
 
                 if (dotCount <= 0)
                     return;

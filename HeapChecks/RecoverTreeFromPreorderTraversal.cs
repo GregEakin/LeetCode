@@ -32,6 +32,15 @@ public class TreeNode
         this.right = right;
     }
 
+    public static TreeNode? Builder(int[] nodes, int index = 0)
+    {
+        return index >= nodes.Length
+            ? null
+            : nodes[index] < 0
+                ? null
+                : new TreeNode(nodes[index], Builder(nodes, 2 * index + 1), Builder(nodes, 2 * index + 2));
+    }
+
     public override string ToString()
     {
         var queue = new Queue<TreeNode?>();
@@ -87,7 +96,7 @@ public class RecoverTreeFromPreorderTraversal
                     {
                         var num = traversal.Substring(start, end);
                         var val = int.Parse(num);
-                        while (stack.Count > dash) 
+                        while (stack.Count > dash)
                             stack.Pop();
 
                         if (stack.Count == 0)

@@ -27,6 +27,7 @@ public class LongestPalindromicSubstring
                 if (s[i] != s[^(i + 1)])
                     return string.Empty;
             }
+
             return s;
         }
 

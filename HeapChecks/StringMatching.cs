@@ -104,8 +104,8 @@ public class StringMatching
                     }
             }
 
-            return set.Count != hS.Length 
-                ? new List<int>() 
+            return set.Count != hS.Length
+                ? new List<int>()
                 : new List<int>(list);
         }
 

@@ -22,7 +22,12 @@ public class StronglyConnectedComponents
 {
     public class DepthFirstSearch<T> where T : notnull
     {
-        public enum Color { White, Gray, Black }
+        public enum Color
+        {
+            White,
+            Gray,
+            Black
+        }
 
         private readonly (T u, T v)[] _tree;
         private readonly Dictionary<T, Color> _color;
@@ -34,10 +39,10 @@ public class StronglyConnectedComponents
         public DepthFirstSearch((T u, T v)[] tree)
         {
             _tree = tree;
-            _color = new Dictionary<T, Color>(tree.Length);  // progress indicator
-            _pi = new Dictionary<T, T?>(tree.Length);      // predecessor field
-            _d = new Dictionary<T, int>(tree.Length);        // discover time
-            _f = new Dictionary<T, int>(tree.Length);        // finished searching time
+            _color = new Dictionary<T, Color>(tree.Length); // progress indicator
+            _pi = new Dictionary<T, T?>(tree.Length); // predecessor field
+            _d = new Dictionary<T, int>(tree.Length); // discover time
+            _f = new Dictionary<T, int>(tree.Length); // finished searching time
         }
 
         public int Time => _time;

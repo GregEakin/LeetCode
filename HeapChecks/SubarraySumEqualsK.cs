@@ -62,7 +62,6 @@ public class SubarraySumEqualsK
         var k = 1;
         var solution = new Solution();
         Assert.Equal(6, solution.SubarraySum(nums, k));
-
     }
 
     [Fact]
@@ -72,6 +71,5 @@ public class SubarraySumEqualsK
         var k = 0;
         var solution = new Solution();
         Assert.Equal(6, solution.SubarraySum(nums, k));
-
     }
 }

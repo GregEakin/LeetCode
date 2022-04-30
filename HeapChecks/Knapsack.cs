@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using Xunit;
 
 namespace HeapChecks;
@@ -95,48 +94,85 @@ public class Knapsack
         return num1;
     }
 
-    public static int BinaryKnapsack(int w, (int wt, int val)[] items)
+    public static int BinaryKnapsackGCD(int w, (int wt, int val)[] items)
     {
         var gcd = w;
         for (var i = 0; i < items.Length; i++) gcd = GCD(items[i].wt, gcd);
-    
+
         var n = items.Length;
         var m = w / gcd;
         var c = new int[n + 1, m + 1];
-        var b = new char[n + 1, m + 1];
-    
+
         for (var i = 1; i <= n; i++)
         for (var j = 1; j <= m; j++)
         {
-            // var val2 = c[i - 1, j];
-            // if (items[i - 1].wt / gcd <= j)
-            // {
-            //     var val1 = items[i - 1].val + c[i - 1, j - items[i - 1].wt / gcd];
-            //     c[i, j] = Math.Max(val1, val2);
-            //     b[i, j] = '\\';
-            // }
-            // else if (val2 >= c[i, j - 1])
-            // {
-            //     c[i, j] = val2;
-            //     b[i, j] = '|';
-            // }
-            // else
-            // {
-            //     c[i, j] = c[i, j - 1];
-            //     b[i, j] = '-';
-            // }
-
-            var val2 = c[i - 1, j];
             if (items[i - 1].wt / gcd <= j)
             {
                 var val1 = items[i - 1].val + c[i - 1, j - items[i - 1].wt / gcd];
-                c[i, j] = Math.Max(val1, val2);
+                c[i, j] = Math.Max(val1, c[i - 1, j]);
             }
             else
-                c[i, j] = val2;
+                c[i, j] = c[i - 1, j];
         }
-    
+
         return c[n, m];
+    }
+
+    public static int BinaryKnapsack(int w, (int wt, int val)[] items)
+    {
+        var n = items.Length;
+        var m = w;
+        var c = new int[n + 1, m + 1];
+
+        for (var i = 1; i <= n; i++)
+        for (var j = 1; j <= m; j++)
+        {
+            if (items[i - 1].wt <= j)
+            {
+                var val1 = items[i - 1].val + c[i - 1, j - items[i - 1].wt];
+                c[i, j] = Math.Max(val1, c[i - 1, j]);
+            }
+            else
+                c[i, j] = c[i - 1, j];
+        }
+
+        return c[n, m];
+    }
+
+    [Fact]
+    public void Knapsack1()
+    {
+        var items = new[] { (2, 3), (3, 5), (4, 6) };
+        Assert.Equal(14, BinaryKnapsack(9, items));
+    }
+
+    public static int BinaryKnapsackPowTwo(int t, (int wt, int val)[] items)
+    {
+        var max = int.MinValue;
+        var n = 1 << items.Length;
+        for (var i = 0; i < n; i++)
+        {
+            var wt = 0;
+            var val = 0;
+            for (var j = 0; j < items.Length; j++)
+            {
+                if ((i & (0x01 << j)) == 0x00) continue;
+                wt += items[j].wt;
+                val += items[j].val;
+            }
+
+            if (wt <= t && val > max)
+                max = val;
+        }
+
+        return max;
+    }
+
+    [Fact]
+    public void KnapsackPowTwo1()
+    {
+        var items = new[] { (2, 3), (3, 5), (4, 6) };
+        Assert.Equal(14, BinaryKnapsackPowTwo(9, items));
     }
 
     // public static int BinaryKnapsack(int w, (int wt, int val)[] items)
@@ -237,5 +273,71 @@ public class Knapsack
         Assert.Equal(50, weight);
         var profit = fractionalKnapsack.Sum(i => (double)items[i.Item1].Item2 * i.Item2 / items[i.Item1].Item1);
         Assert.Equal(240.0, profit);
+    }
+}
+
+public class MinimumNumberOfOperationsToConvertTime
+{
+    public class Solution
+    {
+        public static int ParseTime(string time)
+        {
+            var h = int.Parse(time.Substring(0, 2));
+            var m = int.Parse(time.Substring(3, 2));
+            var t = h * 60 + m;
+            return t;
+        }
+
+        public int ConvertTime(string current, string correct)
+        {
+            var c1 = ParseTime(current);
+            var c2 = ParseTime(correct);
+
+            var count = 0;
+            var steps = new[] { 60, 15, 5, 1 };
+            foreach (var step in steps)
+            {
+                while (c1 < c2)
+                {
+                    var time = c1 + step;
+                    if (time > c2)
+                        break;
+                    c1 = time;
+                    count++;
+                }
+            }
+
+            return count;
+        }
+    }
+
+    [Fact]
+    public void Example1()
+    {
+        var current = "02:30";
+        var correct = "04:35";
+
+        var solution = new Solution();
+        Assert.Equal(3, solution.ConvertTime(current, correct));
+    }
+
+    [Fact]
+    public void Example2()
+    {
+        var current = "11:00";
+        var correct = "11:01";
+
+        var solution = new Solution();
+        Assert.Equal(1, solution.ConvertTime(current, correct));
+    }
+
+    [Fact]
+    public void Answer1()
+    {
+        var current = "00:00";
+        var correct = "23:59";
+
+        var solution = new Solution();
+        Assert.Equal(32, solution.ConvertTime(current, correct));
     }
 }

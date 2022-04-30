@@ -23,6 +23,18 @@ public class HeapTests
     private readonly int[] _answer = { 16, 14, 10, 8, 7, 9, 3, 2, 4, 1 };
 
     [Fact]
+    public void AddTest()
+    {
+        var heap = new Heap<int>();
+        Assert.Equal(Array.Empty<int>(), heap);
+
+        heap.Add(0);
+        heap.Add(1);
+        heap.Add(2);
+        Assert.Equal(new[] { 2, 0, 1 }, heap);
+    }
+
+    [Fact]
     public void Test71()
     {
         var data = new[] { 16, 14, 10, 8, 7, 9, 3, 2, 4, 1 };

@@ -32,6 +32,7 @@ class SimpleList : IList
     public int Count { get; }
     public bool IsSynchronized { get; }
     public object SyncRoot { get; }
+
     public int Add(object? value)
     {
         throw new NotImplementedException();

@@ -19,7 +19,12 @@ namespace HeapChecks;
 
 public class BreadthFirstSearch<T> where T : notnull
 {
-    public enum Color { White, Gray, Black }
+    public enum Color
+    {
+        White,
+        Gray,
+        Black
+    }
 
     private readonly T[] _vertexes;
     private readonly (T u, T v)[] _edges;
@@ -27,13 +32,15 @@ public class BreadthFirstSearch<T> where T : notnull
     private readonly Dictionary<T, T?> _pi;
     private readonly Dictionary<T, int> _d;
 
+    public Dictionary<T, int> Dist => _d;
+
     public BreadthFirstSearch(T[] vertexes, (T u, T v)[] edges)
     {
         _vertexes = vertexes;
         _edges = edges;
-        _color = new Dictionary<T, Color>(vertexes.Length);  // progress indicator
-        _pi = new Dictionary<T, T?>(vertexes.Length);        // predecessor field
-        _d = new Dictionary<T, int>(vertexes.Length);        // distance from source
+        _color = new Dictionary<T, Color>(vertexes.Length); // progress indicator
+        _pi = new Dictionary<T, T?>(vertexes.Length); // predecessor field
+        _d = new Dictionary<T, int>(vertexes.Length); // distance from source
     }
 
     public void Search(T s)
@@ -54,7 +61,8 @@ public class BreadthFirstSearch<T> where T : notnull
         while (queue.Count > 0)
         {
             var u = queue.Dequeue();
-            var items = _edges.Where(t => t.u.Equals(u)).Select(t => t.v).Concat(_edges.Where(t => t.v.Equals(u)).Select(t => t.u));
+            var items = _edges.Where(t => t.u.Equals(u)).Select(t => t.v)
+                .Concat(_edges.Where(t => t.v.Equals(u)).Select(t => t.u));
             foreach (var v in items)
             {
                 if (_color[v] != Color.White) continue;

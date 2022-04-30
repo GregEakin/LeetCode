@@ -88,7 +88,6 @@ public class SubstringConcatenationAllWordsTests
                 for (var j = 0; j < count; j++)
                 {
                     var sub = s.Substring(i + j * length, length);
-
                 }
             }
 

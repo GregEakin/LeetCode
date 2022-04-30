@@ -22,7 +22,8 @@ public class BreadthFirstSearchTests
     public void Test1()
     {
         var vertexes = new[] { 'r', 's', 't', 'u', 'v', 'w', 'x', 'y' };
-        (char u, char v)[] edges = {
+        (char u, char v)[] edges =
+        {
             ('r', 'v'),
             ('r', 's'),
             ('s', 'w'),
