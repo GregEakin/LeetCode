@@ -47,6 +47,7 @@ public class RaceCar
         }
     }
 
+    // A* Algorithm
     public class SolutionGood
     {
         public class RaceState

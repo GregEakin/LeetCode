@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -88,7 +89,7 @@ public class BinaryTreeLevelOrderTraversal
         var data = new[] { 3, 9, 20, -1, -1, 15, 7 };
         var root = TreeNode.Builder(data);
         var solution = new Solution();
-        Assert.Equal(new IList<int>[] { new[] { 3 }, new[] { 9, 20 }, new[] { 15, 7 } }, solution.LevelOrder(root!));
+        Assert.Equal(new[] { new[] { 3 }, new[] { 9, 20 }, new[] { 15, 7 } }, solution.LevelOrder(root!));
     }
 
     [Fact]
@@ -97,13 +98,13 @@ public class BinaryTreeLevelOrderTraversal
         var data = new[] { 1 };
         var root = TreeNode.Builder(data);
         var solution = new Solution();
-        Assert.Equal(new IList<int>[] { new[] { 1 } }, solution.LevelOrder(root!));
+        Assert.Equal(new[] { new[] { 1 } }, solution.LevelOrder(root!));
     }
 
     [Fact]
     public void Example3()
     {
         var solution = new Solution();
-        Assert.Equal(new IList<int>[] { }, solution.LevelOrder(null));
+        Assert.Equal(Array.Empty<int[]>(), solution.LevelOrder(null));
     }
 }

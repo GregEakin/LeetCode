@@ -1,3 +1,17 @@
+//    Copyright 2022 Gregory Eakin
+// 
+//    Licensed under the Apache License, Version 2.0 (the "License");
+//    you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+// 
+//        http://www.apache.org/licenses/LICENSE-2.0
+// 
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
+
 using System.Collections.Generic;
 using System.Text;
 
@@ -16,13 +30,40 @@ public class TreeNode
         this.right = right;
     }
 
-    public static TreeNode? Builder(int[] nodes, int index = 0)
+    public static TreeNode? Builder(int[] nodes)
     {
-        return index >= nodes.Length
-            ? null
-            : nodes[index] < 0
-                ? null
-                : new TreeNode(nodes[index], Builder(nodes, 2 * index + 1), Builder(nodes, 2 * index + 2));
+        if (nodes.Length == 0) return null;
+        if (nodes.Length == 1 && nodes[0] == -1) return null;
+
+        var root = new TreeNode(nodes[0]);
+        var index = 0;
+        var queue = new Queue<TreeNode?>();
+        queue.Enqueue(root);
+        while (queue.Count > 0)
+        {
+            var node = queue.Dequeue();
+            if (node == null) continue;
+            if (index + 1 < nodes.Length)
+            {
+                var left = nodes[index + 1];
+                if (left != -1)
+                    node.left = new TreeNode(left);
+            }
+
+            if (index + 2 < nodes.Length)
+            {
+                var right = nodes[index + 2];
+                if (right != -1)
+                    node.right = new TreeNode(right);
+            }
+
+            index += 2;
+            if (node.left == null && node.right == null) continue;
+            queue.Enqueue(node.left);
+            queue.Enqueue(node.right);
+        }
+
+        return root;
     }
 
     public override string ToString()

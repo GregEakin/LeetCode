@@ -13,8 +13,6 @@
 //    limitations under the License.
 
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using Xunit;
 

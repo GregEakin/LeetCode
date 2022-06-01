@@ -13,7 +13,9 @@
 //    limitations under the License.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Xunit;
 
 namespace HeapChecks;
@@ -27,7 +29,7 @@ public class ShortestPathInGridWithObstaclesElimination
         private int _n;
         private int _m;
 
-        private Queue<Tuple<int, int>>[] _queue;
+        private Queue<(int, int)>[] _queue;
         private int[][][] _dist;
 
         private void Setup()
@@ -35,11 +37,11 @@ public class ShortestPathInGridWithObstaclesElimination
             _n = _grid.Length;
             _m = _grid[0].Length;
 
-            _queue = new Queue<Tuple<int, int>>[_k + 1];
+            _queue = new Queue<(int, int)>[_k + 1];
             _dist = new int[_k + 1][][];
             for (var level = 0; level <= _k; level++)
             {
-                _queue[level] = new Queue<Tuple<int, int>>(_m * _n / 2);
+                _queue[level] = new Queue<(int, int)>(_m * _n / 2);
                 _dist[level] = new int[_n][];
                 for (var y = 0; y < _n; y++)
                 {
@@ -63,7 +65,7 @@ public class ShortestPathInGridWithObstaclesElimination
             if (currDist <= nextDist) return;
 
             _dist[next][y][x] = nextDist;
-            _queue[next].Enqueue(new Tuple<int, int>(y, x));
+            _queue[next].Enqueue((y, x));
         }
 
         public int ShortestPath(int[][] grid, int k)
@@ -72,7 +74,7 @@ public class ShortestPathInGridWithObstaclesElimination
             _k = k;
             Setup();
 
-            _queue[0].Enqueue(new Tuple<int, int>(0, 0));
+            _queue[0].Enqueue((0, 0));
             _dist[0][0][0] = 0;
 
             for (var level = 0; level <= k; level++)
@@ -100,7 +102,7 @@ public class ShortestPathInGridWithObstaclesElimination
         private int _n;
         private int _m;
 
-        private readonly Queue<Tuple<int, int>>[] _queue = new Queue<Tuple<int, int>>[2];
+        private readonly Queue<(int, int)>[] _queue = new Queue<(int, int)>[2];
         private readonly int[][][] _dist = new int[2][][];
 
         private void Setup()
@@ -108,7 +110,7 @@ public class ShortestPathInGridWithObstaclesElimination
             _n = _grid.Length;
             _m = _grid[0].Length;
 
-            _queue[1] = new Queue<Tuple<int, int>>(_m * _n / 2);
+            _queue[1] = new Queue<(int, int)>(_m * _n / 2);
             _dist[1] = new int[_n][];
             for (var y = 0; y < _n; y++)
             {
@@ -130,7 +132,7 @@ public class ShortestPathInGridWithObstaclesElimination
             if (_dist[next][y][x] <= nextDist) return;
 
             _dist[next][y][x] = nextDist;
-            _queue[next].Enqueue(new Tuple<int, int>(y, x));
+            _queue[next].Enqueue((y, x));
         }
 
         public int ShortestPath(int[][] grid, int k)
@@ -139,14 +141,14 @@ public class ShortestPathInGridWithObstaclesElimination
             _k = k;
             Setup();
 
-            _queue[1].Enqueue(new Tuple<int, int>(0, 0));
+            _queue[1].Enqueue((0, 0));
             _dist[1][0][0] = 0;
             var min = int.MaxValue;
 
             for (var level = 0; level <= k; level++)
             {
                 _queue[0] = _queue[1];
-                _queue[1] = new Queue<Tuple<int, int>>();
+                _queue[1] = new Queue<(int, int)>();
 
                 _dist[0] = _dist[1];
                 _dist[1] = new int[_n][];
@@ -176,8 +178,8 @@ public class ShortestPathInGridWithObstaclesElimination
 
     public class SolutionGood
     {
-        private readonly Queue<Tuple<int, int>>[] _queue = new Queue<Tuple<int, int>>[2];
-        private readonly Dictionary<Tuple<int, int>, int>[] _dist = new Dictionary<Tuple<int, int>, int>[2];
+        private readonly Queue<(int, int)>[] _queue = new Queue<(int, int)>[2];
+        private readonly Dictionary<(int, int), int>[] _dist = new Dictionary<(int, int), int>[2];
 
         private int[][] _grid;
         private int _n;
@@ -192,11 +194,11 @@ public class ShortestPathInGridWithObstaclesElimination
             var next = _grid[y][x];
             if (next + level > _k) return;
 
-            var prevPos = new Tuple<int, int>(py, px);
+            var prevPos = (py, px);
             if (!_dist[0].TryGetValue(prevPos, out var prevDist))
                 prevDist = int.MaxValue;
 
-            var nextPos = new Tuple<int, int>(y, x);
+            var nextPos = (y, x);
             if (!_dist[next].TryGetValue(nextPos, out var nextDist))
                 nextDist = int.MaxValue;
 
@@ -212,20 +214,20 @@ public class ShortestPathInGridWithObstaclesElimination
             _m = _grid[0].Length;
             _k = k;
 
-            _queue[1] = new Queue<Tuple<int, int>>(_m * _n / 2);
-            _dist[1] = new Dictionary<Tuple<int, int>, int>(_m * _n / 2);
+            _queue[1] = new Queue<(int, int)>(_m * _n / 2);
+            _dist[1] = new Dictionary<(int, int), int>(_m * _n / 2);
 
-            _queue[1].Enqueue(new Tuple<int, int>(0, 0));
-            _dist[1][new Tuple<int, int>(0, 0)] = 0;
+            _queue[1].Enqueue((0, 0));
+            _dist[1][(0, 0)] = 0;
             var min = int.MaxValue;
 
             for (var level = 0; level <= _k; level++)
             {
                 _queue[0] = _queue[1];
-                _queue[1] = new Queue<Tuple<int, int>>(_m * _n / 2);
+                _queue[1] = new Queue<(int, int)>(_m * _n / 2);
 
                 _dist[0] = _dist[1];
-                _dist[1] = new Dictionary<Tuple<int, int>, int>(_m * _n / 2);
+                _dist[1] = new Dictionary<(int, int), int>(_m * _n / 2);
 
                 while (_queue[0].Count > 0)
                 {
@@ -237,7 +239,7 @@ public class ShortestPathInGridWithObstaclesElimination
                     ProcessNeighbor(level, y, x + 1, y, x);
                 }
 
-                if (_dist[0].TryGetValue(new Tuple<int, int>(_n - 1, _m - 1), out var dist))
+                if (_dist[0].TryGetValue((_n - 1, _m - 1), out var dist))
                     min = Math.Min(min, dist);
 
                 if (min == _n + _m - 2) break;
@@ -247,10 +249,74 @@ public class ShortestPathInGridWithObstaclesElimination
         }
     }
 
-    // ///////////////////////
+    public class SolutionFast
+    {
+        private static readonly (int dx, int dy)[] Directions =
+        {
+            (0, -1),
+            (-1, 0),
+            (0, 1),
+            (1, 0),
+        };
+
+        private int _rows = -1;
+        private int _cols = -1;
+
+        public int ShortestPath(int[][] grid, int k)
+        {
+            var steps = 0;
+            _rows = grid.Length;
+            _cols = grid[0].Length;
+
+            var visited = new int[_rows, _cols];
+            var q = new Queue<(int, int, int)>();
+
+            for (var i = 0; i < _rows; i++)
+            for (var j = 0; j < _cols; j++)
+                visited[i, j] = int.MaxValue;
+
+            visited[0, 0] = 0;
+            q.Enqueue((0, 0, 0));
+            while (q.Count > 0)
+            {
+                var count = q.Count;
+                for (var i = 0; i < count; i++)
+                {
+                    var (curX, curY, curK) = q.Dequeue();
+                    if (IsTarget(curX, curY))
+                        return steps;
+
+                    foreach (var (dx, dy) in Directions)
+                    {
+                        var newX = curX + dx;
+                        var newY = curY + dy;
+
+                        if (!IsSafe(newX, newY)) continue;
+                        var currentObstacle = grid[newX][newY] + curK;
+
+                        if (currentObstacle >= visited[newX, newY] || currentObstacle > k)
+                            continue;
+
+                        visited[newX, newY] = currentObstacle;
+                        q.Enqueue((newX, newY, currentObstacle));
+                    }
+                }
+
+                steps++;
+            }
+
+            return -1;
+        }
+
+        private bool IsTarget(int x, int y) => x == _rows - 1 && y == _cols - 1;
+        private bool IsSafe(int x, int y) => x >= 0 && y >= 0 && x < _rows && y < _cols;
+    }
+
+
+    // A* Algorithm
     public class Solution
     {
-        private class StepState
+        private class StepState : IComparable<StepState>
         {
             public StepState(int steps, int row, int col, int k, (int row, int col) target)
             {
@@ -270,6 +336,7 @@ public class ShortestPathInGridWithObstaclesElimination
             public int Estimation { get; }
 
             public override int GetHashCode() => (Row + 1) * (Col + 1) * K;
+            public int CompareTo(StepState? o) => o is { } other ? Estimation - other.Estimation : -1;
 
             public override bool Equals(object? o) => o is StepState newState && Row == newState.Row &&
                                                       Col == newState.Col && K == newState.K;
@@ -309,9 +376,10 @@ public class ShortestPathInGridWithObstaclesElimination
                         continue;
 
                     var nextElimination = curr.K - grid[nextRow][nextCol];
-                    var newState = new StepState(curr.Steps + 1, nextRow, nextCol, nextElimination, target);
+                    if (nextElimination < 0) continue;
 
-                    if (nextElimination < 0 || seen.Contains(newState)) continue;
+                    var newState = new StepState(curr.Steps + 1, nextRow, nextCol, nextElimination, target);
+                    if (seen.Contains(newState)) continue;
                     seen.Add(newState);
                     queue.Enqueue(newState, newState.Estimation);
                 }
@@ -429,6 +497,19 @@ public class ShortestPathInGridWithObstaclesElimination
         };
         var solution = new Solution();
         Assert.Equal(10, solution.ShortestPath(grid, 20));
+    }
+
+    [Fact]
+    public void Hint1()
+    {
+        var grid = new[]
+        {
+            new[] { 0, 1, 1 },
+            new[] { 1, 1, 1 },
+            new[] { 1, 0, 0 },
+        };
+        var solution = new Solution();
+        Assert.Equal(4, solution.ShortestPath(grid, 2));
     }
 
     [Fact]
