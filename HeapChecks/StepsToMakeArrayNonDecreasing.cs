@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using Xunit;
 
 namespace HeapChecks;
@@ -51,7 +52,7 @@ public class StepsToMakeArrayNonDecreasing
         }
     }
 
-    public class Solution
+    public class Solution3
     {
         public int TotalSteps(int[] nums)
         {
@@ -78,6 +79,7 @@ public class StepsToMakeArrayNonDecreasing
                 }
 
                 max = value;
+                last = value;
                 count = Math.Max(count, step);
                 step = 0;
             }
@@ -86,35 +88,100 @@ public class StepsToMakeArrayNonDecreasing
         }
     }
 
-    [Fact]
-    public void Example1()
+    public class Solution
     {
-        var nums = new[] { 5, 3, 4, 4, 7, 3, 6, 11, 8, 5, 11 };
-        var solution = new Solution();
-        Assert.Equal(3, solution.TotalSteps(nums));
+        public int TotalSteps(int[] nums)
+        {
+            var count = 0;
+            var step = 0;
+            var stack = new Stack<int>();
+            var last = 0;
+            foreach (var value in nums)
+            {
+                var peek = last > value;
+                last = value;
+                if (peek)
+                {
+                    stack.Push(last);
+                    step = 0;
+                    continue;
+                }
+
+                if (stack.Count == 0)
+                    continue;
+                
+                var max = stack.Peek();
+                if (max <= value)
+                {
+                    stack.Pop();
+                    stack.Push(value);
+                    step++;
+                    count = Math.Max(step, count);
+                    step = 0;
+                    continue;
+                }
+
+                step++;
+                count = Math.Max(count, step);
+            }
+
+            return count;
+        }
     }
 
-    [Fact]
-    public void Example2()
-    {
-        var nums = new[] { 4, 5, 7, 7, 13 };
-        var solution = new Solution();
-        Assert.Equal(0, solution.TotalSteps(nums));
-    }
-
-    [Fact]
-    public void Answer1()
-    {
-        var nums = new[] { 10, 1, 2, 3, 4, 5, 6, 1, 2, 3 };
-        var solution = new Solution();
-        Assert.Equal(6, solution.TotalSteps(nums));
-    }
-
-    [Fact]
-    public void Answer2()
-    {
-        var nums = new[] { 7, 14, 4, 14, 13, 2, 6, 13 };
-        var solution = new Solution();
-        Assert.Equal(3, solution.TotalSteps(nums));
-    }
+    // [Fact]
+    // public void Example1()
+    // {
+    //     var nums = new[] { 5, 3, 4, 4, 7, 3, 6, 11, 8, 5, 11 };
+    //     var solution = new Solution();
+    //     Assert.Equal(3, solution.TotalSteps(nums));
+    // }
+    //
+    // [Fact]
+    // public void Example2()
+    // {
+    //     var nums = new[] { 4, 5, 7, 7, 13 };
+    //     var solution = new Solution();
+    //     Assert.Equal(0, solution.TotalSteps(nums));
+    // }
+    //
+    // [Fact]
+    // public void Answer1()
+    // {
+    //     var nums = new[] { 10, 1, 2, 3, 4, 5, 6, 1, 2, 3 };
+    //     var solution = new Solution();
+    //     Assert.Equal(6, solution.TotalSteps(nums));
+    // }
+    //
+    // [Fact]
+    // public void Answer2()
+    // {
+    //     var nums = new[] { 7, 14, 4, 14, 13, 2, 6, 13 };
+    //     var solution = new Solution();
+    //     Assert.Equal(3, solution.TotalSteps(nums));
+    // }
+    //
+    // [Fact]
+    // public void Answer3()
+    // {
+    //     var nums = new[] { 5, 14, 15, 2, 11, 5, 13, 15 };
+    //     var solution = new Solution();
+    //     Assert.Equal(3, solution.TotalSteps(nums));
+    // }
+    //
+    // [Fact]
+    // public void Test1()
+    // {
+    //     var nums = new[] { 1, 1, 1 ,1 };
+    //     var solution = new Solution();
+    //     Assert.Equal(0, solution.TotalSteps(nums));
+    // }
+    //
+    // [Fact]
+    // public void Test2()
+    // {
+    //     var nums = new[] { 10, 9, 8, 7 };
+    //     var solution = new Solution();
+    //     Assert.Equal(1, solution.TotalSteps(nums));
+    // }
 }
