@@ -30,12 +30,12 @@ public class TreeNode
         this.right = right;
     }
 
-    public static TreeNode? Builder(int[] nodes)
+    public static TreeNode? Builder(int?[] nodes)
     {
         if (nodes.Length == 0) return null;
-        if (nodes.Length == 1 && nodes[0] == -1) return null;
+        if (nodes.Length == 1 && nodes[0] == null) return null;
 
-        var root = new TreeNode(nodes[0]);
+        var root = new TreeNode(nodes[0]!.Value);
         var index = 0;
         var queue = new Queue<TreeNode?>();
         queue.Enqueue(root);
@@ -46,15 +46,15 @@ public class TreeNode
             if (index + 1 < nodes.Length)
             {
                 var left = nodes[index + 1];
-                if (left != -1)
-                    node.left = new TreeNode(left);
+                if (left != null)
+                    node.left = new TreeNode(left.Value);
             }
 
             if (index + 2 < nodes.Length)
             {
                 var right = nodes[index + 2];
-                if (right != -1)
-                    node.right = new TreeNode(right);
+                if (right != null)
+                    node.right = new TreeNode(right.Value);
             }
 
             index += 2;

@@ -105,42 +105,17 @@ public class AmountOfNewAreaPaintedEachDay
         }
     }
 
-    public class SolutionSimple
-    {
-        public int[] AmountPainted(int[][] paint)
-        {
-            var track = new int[50001];
-            var res = new int[paint.Length];
-            for (var i = 0; i < paint.Length; ++i)
-            {
-                var start = paint[i][0];
-                var end = paint[i][1];
-                while (start < end)
-                {
-                    var jump = Math.Max(start + 1, track[start]);
-                    res[i] += track[start] == 0 ? 1 : 0;
-                    track[start] = Math.Max(track[start], end);
-                    start = jump;
-                }
-            }
-
-            return res;
-        }
-    }
-
-    public class Solution
+    public class SolutionGood
     {
         public int[] AmountPainted(int[][] paint)
         {
             var intervals = new List<int[]>();
             var hours = new int[paint.Length];
-            for (var i = 0; i < paint.Length; i++)
+            for (var day = 0; day < paint.Length; day++)
             {
-                var p = paint[i];
+                var p = paint[day];
+                var len = p[1] - p[0];
                 var merged = new List<int[]>();
-                var left = p[0];
-                var right = p[1];
-                var len = right - left;
                 foreach (var interval in intervals)
                 {
                     if (merged.Count == 0 && p[1] < interval[0] ||
@@ -154,19 +129,45 @@ public class AmountOfNewAreaPaintedEachDay
                     }
 
                     var intersection = new int[2];
-                    intersection[0] = Math.Max(interval[0], left);
-                    intersection[1] = Math.Min(interval[1], right);
+                    intersection[0] = Math.Max(interval[0], p[0]);
+                    intersection[1] = Math.Min(interval[1], p[1]);
                     len -= intersection[1] - intersection[0];
                     p[0] = Math.Min(interval[0], p[0]);
                     p[1] = Math.Max(interval[1], p[1]);
                 }
 
-                if (merged.Count == 0 || p[0] > merged[^1][1]) merged.Add(p);
-                hours[i] = len;
+                if (merged.Count == 0 || p[0] > merged[^1][1]) 
+                    merged.Add(p);
+                
+                hours[day] = len;
                 intervals = merged;
             }
 
             return hours;
+        }
+    }
+
+    public class Solution
+    {
+        public int[] AmountPainted(int[][] paint)
+        {
+            var track = new int[50001];
+            var res = new int[paint.Length];
+            for (var day = 0; day < paint.Length; ++day)
+            {
+                var p = paint[day];
+                var left = p[0];
+                var right = p[1];
+                while (left < right)
+                {
+                    var jump = Math.Max(left + 1, track[left]);
+                    res[day] += track[left] == 0 ? 1 : 0;
+                    track[left] = Math.Max(track[left], right);
+                    left = jump;
+                }
+            }
+
+            return res;
         }
     }
 
@@ -240,5 +241,21 @@ public class AmountOfNewAreaPaintedEachDay
         var paint = new[] { new[] { 1, 4 }, new[] { 6, 7 }, new[] { 12, 14 }, new[] { 5, 13 } };
         var solution = new Solution();
         Assert.Equal(new[] { 3, 1, 2, 6 }, solution.AmountPainted(paint));
+    }
+    
+    [Fact]
+    public void SpeedTest1()
+    {
+        var random = new Random(1024);
+        var paint = new int[100000][];
+        for (var day = 0; day < paint.Length; day++)
+        {
+            var start = random.Next(50000);
+            var end = start + random.Next(50000 - start) + 1;
+            paint[day] = new[] { start, end };
+        }
+
+        var solution = new Solution();
+        solution.AmountPainted(paint);
     }
 }

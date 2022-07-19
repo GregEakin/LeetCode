@@ -88,7 +88,7 @@ public class ReverseNodesInKGroup
                 while (count < k && ptr != null)
                 {
                     ptr = ptr.next;
-                    count += 1;
+                    count++;
                 }
 
                 if (count != k) continue;

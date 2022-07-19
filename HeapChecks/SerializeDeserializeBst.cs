@@ -33,7 +33,7 @@ public class SerializeDeserializeBst
     public class Codec
     {
         // Encodes a tree to a single string.
-        public string serialize(TreeNode root)
+        public string Serialize(TreeNode? root)
         {
             var queue = new Queue<TreeNode?>();
             var builder = new StringBuilder("[");
@@ -77,7 +77,7 @@ public class SerializeDeserializeBst
         }
 
         // Decodes your encoded data to tree.
-        public TreeNode deserialize(string data)
+        public TreeNode? Deserialize(string data)
         {
             if (string.IsNullOrWhiteSpace(data) || data.Length <= 2 || data == "[null]") return null;
             var nodes = data.Substring(1, data.Length - 2).Split(',');
@@ -124,40 +124,40 @@ public class SerializeDeserializeBst
     [Fact]
     public void Example1()
     {
-        var root = TreeNode.Builder(new[] { 2, 1, 3 });
+        var root = TreeNode.Builder(new int?[] { 2, 1, 3 });
         var ser = new Codec();
         var deser = new Codec();
-        var tree = ser.serialize(root!);
+        var tree = ser.Serialize(root!);
         Assert.Equal("[2,1,3]", tree);
 
-        var ans = deser.deserialize(tree);
-        Assert.Equal(root!.ToString(), ans.ToString());
+        var ans = deser.Deserialize(tree);
+        Assert.Equal(root!.ToString(), ans!.ToString());
     }
 
     [Fact]
     public void Example2()
     {
-        var root = TreeNode.Builder(Array.Empty<int>());
+        var root = TreeNode.Builder(Array.Empty<int?>());
         var ser = new Codec();
         var deser = new Codec();
-        var tree = ser.serialize(root!);
+        var tree = ser.Serialize(root!);
         Assert.Equal("[]", tree);
 
-        var ans = deser.deserialize(tree);
+        var ans = deser.Deserialize(tree);
         Assert.Null(ans);
     }
 
     [Fact]
     public void Test1()
     {
-        var root = TreeNode.Builder(new[] { 8, 3, 10, 1, 6, 14, 4, 7, 13, -1 });
+        var root = TreeNode.Builder(new int?[] { 8, 3, 10, 1, 6, 14, 4, 7, 13, null });
         var ser = new Codec();
         var deser = new Codec();
-        var tree = ser.serialize(root!);
+        var tree = ser.Serialize(root!);
         Assert.Equal("[8,3,10,1,6,14,4,7,13]", tree);
 
-        var ans = deser.deserialize(tree);
-        Assert.Equal(root!.ToString(), ans.ToString());
+        var ans = deser.Deserialize(tree);
+        Assert.Equal(root!.ToString(), ans!.ToString());
     }
 
     [Fact]
@@ -165,9 +165,9 @@ public class SerializeDeserializeBst
     {
         var ser = new Codec();
         var deser = new Codec();
-        var root = deser.deserialize("[8,3,10,1,6,null,14,null,null,4,7,13]");
-        var data = ser.serialize(root);
-        Assert.Equal(root.ToString(), data);
+        var root = deser.Deserialize("[8,3,10,1,6,null,14,null,null,4,7,13]");
+        var data = ser.Serialize(root);
+        Assert.Equal(root!.ToString(), data);
     }
 
     [Fact]
@@ -175,8 +175,8 @@ public class SerializeDeserializeBst
     {
         var ser = new Codec();
         var deser = new Codec();
-        var root = deser.deserialize("[1,2,3,null,null,4,5,6,7]");
-        var data = ser.serialize(root);
-        Assert.Equal(root.ToString(), data);
+        var root = deser.Deserialize("[1,2,3,null,null,4,5,6,7]");
+        var data = ser.Serialize(root);
+        Assert.Equal(root!.ToString(), data);
     }
 }

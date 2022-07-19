@@ -146,7 +146,7 @@ public class StepByStepDirectionsFromBinaryTreeNodeToAnother
     [Fact]
     public void Example1()
     {
-        var root = TreeNode.Builder(new[] { 5, 1, 2, 3, -1, 6, 4 })!;
+        var root = TreeNode.Builder(new int?[] { 5, 1, 2, 3, null, 6, 4 })!;
         var solution = new Solution();
         Assert.Equal("UURL", solution.GetDirections(root, 3, 6));
     }
@@ -154,7 +154,7 @@ public class StepByStepDirectionsFromBinaryTreeNodeToAnother
     [Fact]
     public void Example2()
     {
-        var root = TreeNode.Builder(new[] { 2, 1 })!;
+        var root = TreeNode.Builder(new int?[] { 2, 1 })!;
         var solution = new Solution();
         Assert.Equal("L", solution.GetDirections(root, 2, 1));
     }
@@ -162,7 +162,7 @@ public class StepByStepDirectionsFromBinaryTreeNodeToAnother
     [Fact]
     public void Test1()
     {
-        var root = TreeNode.Builder(new[] { 2, 1 })!;
+        var root = TreeNode.Builder(new int?[] { 2, 1 })!;
         var solution = new Solution();
         Assert.Equal("U", solution.GetDirections(root, 1, 2));
     }

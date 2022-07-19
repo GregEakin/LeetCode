@@ -103,7 +103,7 @@ public class SerializeDeserializeBinaryTreeTests
     [Fact]
     public void Answer1()
     {
-        var root = TreeNode.Builder(new[] { 1, 2, 3, -1, -1, 4, 5, 6, 7 });
+        var root = TreeNode.Builder(new int?[] { 1, 2, 3, null, null, 4, 5, 6, 7 });
         var ser = new Codec();
         var deser = new Codec();
         var serialize = ser.serialize(root!);
@@ -115,7 +115,7 @@ public class SerializeDeserializeBinaryTreeTests
     [Fact]
     public void Example1()
     {
-        var root = TreeNode.Builder(new[] { 1, 2, 3, -1, -1, 4, 5 });
+        var root = TreeNode.Builder(new int?[] { 1, 2, 3, null, null, 4, 5 });
         var ser = new Codec();
         var deser = new Codec();
         var serialize = ser.serialize(root!);
@@ -127,7 +127,7 @@ public class SerializeDeserializeBinaryTreeTests
     [Fact]
     public void Example2()
     {
-        var root = TreeNode.Builder(Array.Empty<int>());
+        var root = TreeNode.Builder(Array.Empty<int?>());
         var ser = new Codec();
         var deser = new Codec();
         var serialize = ser.serialize(root!);
@@ -139,7 +139,7 @@ public class SerializeDeserializeBinaryTreeTests
     [Fact]
     public void Test1()
     {
-        var root = TreeNode.Builder(new[] { 5, 1, 2, 3, -1, 6, 4 })!;
+        var root = TreeNode.Builder(new int?[] { 5, 1, 2, 3, null, 6, 4 })!;
         var ser = new Codec();
         var deser = new Codec();
         var serialize = ser.serialize(root!);

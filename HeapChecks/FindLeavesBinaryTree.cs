@@ -59,7 +59,7 @@ public class FindLeavesBinaryTree
     [Fact]
     public void Example1()
     {
-        var root = TreeNode.Builder(new[] { 1, 2, 3, 4, 5 });
+        var root = TreeNode.Builder(new int?[] { 1, 2, 3, 4, 5 });
         var solution = new Solution();
         Assert.Equal(new List<List<int>> { new() { 4, 5, 3 }, new() { 2 }, new() { 1 } }, solution.FindLeaves(root!));
     }
@@ -67,7 +67,7 @@ public class FindLeavesBinaryTree
     [Fact]
     public void Example2()
     {
-        var root = TreeNode.Builder(new[] { 1 });
+        var root = TreeNode.Builder(new int?[] { 1 });
         var solution = new Solution();
         Assert.Equal(new List<List<int>> { new() { 1 } }, solution.FindLeaves(root!));
     }

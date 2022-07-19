@@ -36,7 +36,7 @@ public class BinaryTreeLevelOrderTraversal
      */
     public class Solution
     {
-        public IList<IList<int>> LevelOrder(TreeNode root)
+        public IList<IList<int>> LevelOrder(TreeNode? root)
         {
             var levels = new List<IList<int>>();
             if (root == null) return levels;
@@ -75,7 +75,7 @@ public class BinaryTreeLevelOrderTraversal
     [Fact]
     public void Test1()
     {
-        var data = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
+        var data = new int?[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
         var root = TreeNode.Builder(data);
         var solution = new Solution();
         var answer = new[]
@@ -86,7 +86,7 @@ public class BinaryTreeLevelOrderTraversal
     [Fact]
     public void Example1()
     {
-        var data = new[] { 3, 9, 20, -1, -1, 15, 7 };
+        var data = new int?[] { 3, 9, 20, null, null, 15, 7 };
         var root = TreeNode.Builder(data);
         var solution = new Solution();
         Assert.Equal(new[] { new[] { 3 }, new[] { 9, 20 }, new[] { 15, 7 } }, solution.LevelOrder(root!));
@@ -95,7 +95,7 @@ public class BinaryTreeLevelOrderTraversal
     [Fact]
     public void Example2()
     {
-        var data = new[] { 1 };
+        var data = new int?[] { 1 };
         var root = TreeNode.Builder(data);
         var solution = new Solution();
         Assert.Equal(new[] { new[] { 1 } }, solution.LevelOrder(root!));

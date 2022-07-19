@@ -20,7 +20,7 @@ namespace HeapChecks;
 
 public class TextEditorTests
 {
-    public class TextEditor
+    public class TextEditorSlow
     {
         private readonly StringBuilder _buffer = new();
         private int _index;
@@ -57,106 +57,47 @@ public class TextEditorTests
         }
     }
 
-    public class TextEditorBad
-    {
-        class DoubleNode
-        {
-            public DoubleNode? Next { get; set; }
-            public DoubleNode? Prev { get; set; }
-            public char Buffer { get; set; }
+    public class TextEditor {
+        private readonly StringBuilder _left = new();
+        private readonly StringBuilder _right = new();
+
+        public void AddText(string text) {
+            _left.Append(text);
         }
 
-        private DoubleNode? _head;
-        private DoubleNode? _ptr;
-        private int _index;
-
-        public void AddText(string text)
-        {
-            for (var i = text.Length - 1; i >= 0; i--)
-            {
-                var prev = _ptr?.Prev;
-                var node = new DoubleNode()
-                {
-                    Next = _ptr,
-                    Prev = prev,
-                    Buffer = text[i],
-                };
-
-                _ptr = node;
-            }
-
-            if (_index == 0) 
-                _head = _ptr;
-
-            _index += text.Length;
+        public int DeleteText(int k) {
+            var length = Math.Min(_left.Length, k);
+            _left.Remove(_left.Length - length, length);
+            return length;
         }
 
-        public int DeleteText(int k)
-        {
-            var len = Math.Min(k, _index);
-            for (var i = 0; i < len; i++)
-            {
-                var prev = _ptr?.Prev;
-                if (prev != null)
-                    prev.Next = _ptr?.Next;
-                if (_ptr?.Next != null)
-                    _ptr.Next.Prev = prev;
-
-                _index--;
-                if (_index == 0)
-                    _head = _ptr;
+        public string CursorLeft(int k) {
+            var count = Math.Min(_left.Length, k);
+            while (count-- > 0) {
+                _right.Append(_left[^1]);
+                _left.Length--;
             }
-            _index -= len;
-            return len;
+            
+            return GetResult();
         }
 
-        public string CursorLeft(int k)
-        {
-            var newIndex = Math.Max(0, _index - k);
-            while (_index > newIndex)
-            {
-                if (_ptr != null)
-                    _ptr = _ptr.Prev;
-                _index--;
+        public string CursorRight(int k) {
+            var count = Math.Min(_right.Length, k);
+            while (count-- > 0) {
+                _left.Append(_right[^1]);
+                _right.Length--;
             }
-
-            var buffer = new StringBuilder();
-            var start = Math.Max(0, _index - 10);
-            var len = Math.Min(10, _index);
-            var ptr = _ptr;
-            for (var i = 0; i < len; i++)
-            {
-                if (ptr != null)
-                    buffer.Insert(0, ptr.Buffer);
-                ptr = ptr?.Prev;
-            }
-
-            return buffer.ToString();
+            
+            return GetResult();
         }
 
-        public string CursorRight(int k)
-        {
-            for (var i = 0; i < k && _ptr?.Next != null; i++)
-            {
-                _ptr = _ptr.Next;
-                _index++;
-            }
-
-            var buffer = new StringBuilder();
-            var start = Math.Max(0, _index - 10);
-            var len = Math.Min(10, _index);
-            var ptr = _ptr;
-            for (var i = 0; i < len; i++)
-            {
-                if (ptr != null)
-                    buffer.Insert(0, ptr.Buffer);
-                ptr = ptr?.Prev;
-            }
-
-            return buffer.ToString();
+        private string GetResult() {
+            var start = Math.Max(0, _left.Length - 10);
+            var length = _left.Length - start;
+            return _left.ToString(start, length);
         }
     }
-
+    
     [Fact]
     public void Example1()
     {

@@ -32,7 +32,7 @@ public class CountNodesEqualToAverageOfSubtree
             return (n, sum, count);
         }
 
-        public int AverageOfSubtree(TreeNode root)
+        public int AverageOfSubtree(TreeNode? root)
         {
             var (n, sum, count) = TreeCounter(root);
             return count;
@@ -44,7 +44,7 @@ public class CountNodesEqualToAverageOfSubtree
     {
         var data = "[4,8,5,0,1,null,6]";
         var codec = new SerializeDeserializeBst.Codec();
-        var root = codec.deserialize(data);
+        var root = codec.Deserialize(data);
         var solution = new Solution();
         Assert.Equal(5, solution.AverageOfSubtree(root));
     }
@@ -54,7 +54,7 @@ public class CountNodesEqualToAverageOfSubtree
     {
         var data = "[1]";
         var codec = new SerializeDeserializeBst.Codec();
-        var root = codec.deserialize(data);
+        var root = codec.Deserialize(data);
         var solution = new Solution();
         Assert.Equal(1, solution.AverageOfSubtree(root));
     }

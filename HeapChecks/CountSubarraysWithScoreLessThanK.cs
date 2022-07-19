@@ -12,72 +12,12 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-using System.Collections.Generic;
 using Xunit;
 
 namespace HeapChecks;
 
 public class CountSubarraysWithScoreLessThanK
 {
-    public class SolutionFast
-    {
-        public long CountSubarrays(int[] nums, long k)
-        {
-            var i = 0;
-            long res = 0;
-            long sum = 0;
-            for (var j = 0; j < nums.Length; j++)
-            {
-                sum += nums[j];
-                while (sum * (j - i + 1) >= k)
-                    sum -= nums[i++];
-
-                res += j - i + 1;
-            }
-
-            return res;
-        }
-    }
-
-    public class SolutionSearch
-    {
-        private readonly List<long> _prefix = new();
-        private long _k;
-
-        public bool Check(int l, int r)
-        {
-            var tot = _prefix[r] - (l - 1 >= 0 ? _prefix[l - 1] : 0);
-            return tot * (r - l + 1) < _k;
-        }
-
-        public long CountSubarrays(int[] nums, long k)
-        {
-            _k = k;
-            var n = nums.Length;
-            _prefix.Capacity = n;
-            _prefix[0] = nums[0];
-            for (var i = 1; i < n; i++) 
-                _prefix[i] = _prefix[i - 1] + nums[i];
-
-            var count = 0L;
-            for (var i = 0; i < n; i++)
-            {
-                var left = i;
-                var right = n;
-                while (left < right)
-                {
-                    var mid = left + right >> 1;
-                    if (Check(i, mid)) left = mid + 1;
-                    else right = mid;
-                }
-
-                count += left - i;
-            }
-
-            return count;
-        }
-    }
-
     public class Solution
     {
         public long CountSubarrays(int[] nums, long k)
